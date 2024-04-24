@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2024 at 01:17 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Apr 24, 2024 at 03:06 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_puskesmas`
+-- Database: `dbpuskesmas`
 --
 
 -- --------------------------------------------------------
@@ -28,21 +28,21 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `kelurahan` (
-  `id_kelurahan` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `nama` varchar(45) NOT NULL,
-  `kecamatan` varchar(45) NOT NULL
+  `kec_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `kelurahan`
 --
 
-INSERT INTO `kelurahan` (`id_kelurahan`, `nama`, `kecamatan`) VALUES
-(1, 'Beji', 'Beji'),
-(2, 'Bojongsari Lama', 'Bojongsari'),
-(3, 'Cilodong', 'Cilodong'),
-(4, 'Cisalak Pasar', 'Cimanggis'),
-(5, 'Cinere', 'Cinere');
+INSERT INTO `kelurahan` (`id`, `nama`, `kec_id`) VALUES
+(1, 'Kelurahan Jatijajar', 1),
+(2, 'Kelurahan Beji ', 2),
+(3, 'Kelurahan Sukmajaya', 3),
+(4, 'Kelurahan Sukamaju', 4),
+(5, 'Kelurahan Limo', 5);
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ INSERT INTO `kelurahan` (`id_kelurahan`, `nama`, `kecamatan`) VALUES
 --
 
 CREATE TABLE `pasien` (
-  `id_pasien` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `kode` varchar(10) NOT NULL,
   `nama` varchar(45) NOT NULL,
   `tmp_lahir` varchar(30) NOT NULL,
@@ -66,11 +66,12 @@ CREATE TABLE `pasien` (
 -- Dumping data for table `pasien`
 --
 
-INSERT INTO `pasien` (`id_pasien`, `kode`, `nama`, `tmp_lahir`, `tgl_lahir`, `gender`, `email`, `alamat`, `kelurahan_id`) VALUES
-(1, 'P001', 'Adam Yusron', 'Jakarta', '2005-12-15', 'L', 'adam@gmail.com', 'Jl. Mawar', 4),
-(2, 'P002', 'Maulina ', 'Depok', '2007-10-26', 'P', 'maulina@gmail.com', 'Jl. Raflesia', 3),
-(3, 'P003', 'Aprilia', 'Bekasi', '1999-02-10', 'P', 'aprilia@gmail.com', 'Jl. Arnoldi', 1),
-(4, 'P004', 'Nuril', 'Tangerang', '2009-05-15', 'P', 'nuril@gmail.com', 'Jl. Apel', 5);
+INSERT INTO `pasien` (`id`, `kode`, `nama`, `tmp_lahir`, `tgl_lahir`, `gender`, `email`, `alamat`, `kelurahan_id`) VALUES
+(1, '1', 'Thariq Zaidan Mubarak Ahmad', 'Kota Depok', '2006-09-26', 'L', 'zaidan@gmail.com', 'Jatijajar', 4),
+(2, '2', 'Lulu Il Maknun', 'Kota Banten', '2014-04-01', 'P', 'lulu@gmail.com', '', 2),
+(3, '3', 'Leyli Fitriansyah', 'Kota Banten', '2003-05-15', 'P', 'leyli@gmail.com', 'kota bandung', 1),
+(4, '4', 'Ahmad Asep Nurfadillah', 'Kota Depok', '2002-07-22', 'L', 'ahmaf@gmail.com', 'Kota Depok', 2),
+(13, '5', 'Aisyah Aljihadu Sabiiluna', 'Kota Aceh', '2005-01-01', 'P', 'aisyah@gmail.com', 'Garut', 3);
 
 --
 -- Indexes for dumped tables
@@ -80,14 +81,15 @@ INSERT INTO `pasien` (`id_pasien`, `kode`, `nama`, `tmp_lahir`, `tgl_lahir`, `ge
 -- Indexes for table `kelurahan`
 --
 ALTER TABLE `kelurahan`
-  ADD PRIMARY KEY (`id_kelurahan`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `kec_id` (`kec_id`);
 
 --
 -- Indexes for table `pasien`
 --
 ALTER TABLE `pasien`
-  ADD PRIMARY KEY (`id_pasien`),
-  ADD KEY `kelurahan_id` (`kelurahan_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `kode` (`kode`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -97,23 +99,13 @@ ALTER TABLE `pasien`
 -- AUTO_INCREMENT for table `kelurahan`
 --
 ALTER TABLE `kelurahan`
-  MODIFY `id_kelurahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pasien`
 --
 ALTER TABLE `pasien`
-  MODIFY `id_pasien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `pasien`
---
-ALTER TABLE `pasien`
-  ADD CONSTRAINT `pasien_ibfk_1` FOREIGN KEY (`kelurahan_id`) REFERENCES `kelurahan` (`id_kelurahan`) ON DELETE CASCADE ON UPDATE CASCADE;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
