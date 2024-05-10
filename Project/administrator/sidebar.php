@@ -4,8 +4,8 @@
     <!-- Sidebar user panel (optional) -->
     <!-- Sidebar user panel (optional) -->
     <!-- Sidebar user panel (optional) -->
-    <a href="index.html" class="brand-link">
-      <img src="../assets/admin/img/1.png" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <a href="index.php" class="brand-link">
+      <img src="../assets/admin/img/2.png" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">ePuskesmas</span>
     </a>
 
