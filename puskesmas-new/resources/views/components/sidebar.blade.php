@@ -1,3 +1,4 @@
+@use(App\Models\User)
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ asset('admin/index3.html')}}" class="brand-link">
@@ -13,7 +14,8 @@
                 <img src="{{ asset('admin/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Muhamad Hilmi Kamil</a>
+                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                <span class="text-primary">Role: {{Auth::user()->role}}</span>
             </div>
         </div>
 
@@ -44,17 +46,21 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ asset('dashboard/kelurahan')}}" class="nav-link">
+                            <a href="{{ url('dashboard/kelurahan')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data Kecamatan</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ asset('dashboard/pasien')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Data Pasien</p>
-                            </a>
-                        </li>
+                        @auth
+                            @if (Auth::user()->role == User::ROLE_ADMIN)
+                            <li class="nav-item">
+                                <a href="{{ url('dashboard/pasien')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Data Pasien</p>
+                                </a>
+                            </li>     
+                            @endif
+                        @endauth
                     </ul>
                 </li>
             </ul>

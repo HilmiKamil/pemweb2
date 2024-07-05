@@ -1,3 +1,4 @@
+@use(App\Models\User)
 <x-layout>
     <x-slot name="page_name">Halaman Kelurahan</x-slot>
     <x-slot name="page_content">
@@ -28,8 +29,11 @@
             </button>
           </div>
         @endif
-
+        @auth
+        @if (Auth::user()->role == User::ROLE_ADMIN)
         <a href="{{ url('dashboard/kelurahan/create')}}" class="btn btn-primary">+ Tambah Kelurahan</a>
+        @endif
+        @endauth
         <br>
         <table class="table table-bordered">
             <tr class="table-success">
@@ -43,13 +47,17 @@
                 <td>{{ $kelurahan->id }}</td>
                 <td>{{ $kelurahan->nama }}</td>
                 <td>{{ $kelurahan->kecamatan_nama }}</td>
-                <td><button type="submit" class="btn btn-primary"><a href="{{url('dashboard/kelurahan/show', $kelurahan->id) }}" class="text-light"><i class="far fa-eye"></i> Lihat</a></button> |
+                <td><button type="submit" class="btn btn-primary"><a href="{{url('dashboard/kelurahan/show', $kelurahan->id) }}" class="text-light"><i class="far fa-eye"></i> Lihat</a></button> 
+                  @auth
+                  @if (Auth::user()->role == User::ROLE_ADMIN) |
                     <button type="submit" class="btn btn-warning"><a href="{{url('dashboard/kelurahan/edit', $kelurahan->id) }}" class="text-dark"><i class="far fa-edit"></i> Edit</a></button> |
                     <form action="{{url('dashboard/kelurahan/destroy', $kelurahan->id)}}" method="post" class="d-inline">
                         @csrf
                         @method('delete')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah anda yakin ingin menghapus data?')"><i class="far fa-trash-alt"></i>Hapus</button>
                     </form>
+                    @endif
+                    @endauth
                 </td>
             </tr>
             @endforeach
